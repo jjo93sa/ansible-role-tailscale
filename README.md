@@ -26,6 +26,7 @@ Is **not** required if `tailscale_up_skip` is set to `true`.
 An [ansible-vault encrypted variable][ansible-vault] containing a Tailscale Node Authorization auth key.
 
 A Node Authorization auth key can be generated under your Tailscale account at <https://login.tailscale.com/admin/authkeys>.
+Note that reusable authorization keys now expire 90 days after they are generated.
 
 Encrypt this variable with the following command:
 
@@ -216,12 +217,12 @@ Ari Kalfus ([@artis3n](https://www.artis3nal.com/)) <dev@artis3nal.com>
 
 ## Development and Contributing
 
-| :exclamation: Due to the encrypted Tailscale auth key in `molecule/defaults/converge.yml`, this repository can't successfully test PRs from forks. I'm working on how to enable collaboration and welcome any ideas. |
+| :exclamation: Due to the encrypted Tailscale ephemeral auth key in `molecule/defaults/converge.yml`, this repository can't successfully test PRs from forks. I'm working on how to enable collaboration and welcome any ideas. |
 | ----- |
 
 This GitHub repository uses a dedicated "test" Tailscale account to authenticate Tailscale during CI runs.
 Each Docker container creates a new authorized machine in that test account.
-The machines are manually cleaned up every so often.
+The machines are authorized with [ephemeral auth keys][] and are automatically cleaned up within 48 hours.
 
 If you are interested in contributing to this repository, you must create a [Tailscale account][] and generate a [Node Authorization auth key][auth key].
 
@@ -241,5 +242,6 @@ This will generate an encrypted string for you to set in the `molecule/default/c
 
 [ansible-vault]: https://docs.ansible.com/ansible/latest/user_guide/vault.html#encrypt-string-for-use-in-yaml
 [auth key]: https://login.tailscale.com/admin/authkeys
+[ephemeral auth key]: https://tailscale.com/kb/1111/ephemeral-nodes/
 [tailscale]: https://tailscale.com/
 [tailscale account]: https://login.tailscale.com/start
